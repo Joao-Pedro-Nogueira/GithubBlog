@@ -25,6 +25,10 @@ export const GlobalStyles = createGlobalStyle`
     font: 400 ${({ theme }) =>
       theme.textSizes["text-text-m"]} 'Nunito', sans-serif;
       line-height: 160%;
+    :focus{
+      border: none;
+      outline: none;
+    }
   }
   ul {
     list-style: none;

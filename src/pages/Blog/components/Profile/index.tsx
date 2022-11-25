@@ -25,7 +25,7 @@ export function Profile() {
           </li>
           <li>
             <FontAwesomeIcon icon={faUserGroup}/>
-            147 seguidores
+            1 seguidor
           </li>
         </ul>
       </ProfileDetails>
