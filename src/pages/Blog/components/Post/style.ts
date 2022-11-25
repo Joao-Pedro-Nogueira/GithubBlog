@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export const PostCard = styled.div`
+export const PostCard = styled(Link)`
   background-color: ${({theme}) => theme.colors["base-post"]};
   height: 16.25rem;
   padding: 2rem;

@@ -13,6 +13,10 @@ export function Blog() {
         <Post />
         <Post />
         <Post />
+        <Post />
+        <Post />
+        <Post />
+        <Post />
       </PostListContainer>
     </>
   )

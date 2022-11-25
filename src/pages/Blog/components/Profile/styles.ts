@@ -51,6 +51,7 @@ export const ProfileDetails = styled.div`
       justify-content: center;
       gap: 0.5rem;
       color: ${({theme}) => theme.colors["base-subtitle"]};
+      line-height: 0px;
 
       svg {
         width: 1.125rem;
