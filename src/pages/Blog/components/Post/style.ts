@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 export const PostCard = styled(Link)`
   background-color: ${({theme}) => theme.colors["base-post"]};
-  height: 16.25rem;
   padding: 2rem;
   border-radius: 10px;
   display: flex;

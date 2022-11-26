@@ -4,28 +4,38 @@ import { faBuilding, faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ProfileContainer, ProfileDetails, ProfilePicture } from "./styles";
 
-export function Profile() {
+interface ProfileProps {
+  avatarUrl: string;
+  htmlUrl: string;
+  login: string;
+  name: string;
+  company: string;
+  followers: number;
+  bio: string;
+}
+
+export function Profile({avatarUrl, htmlUrl, login, name, company, followers, bio}: ProfileProps) {
   return (
     <ProfileContainer>
-      <ProfilePicture src="https://github.com/Joao-Pedro-Nogueira.png" />
+      <ProfilePicture src={avatarUrl} />
       <ProfileDetails>
         <header>
-          <h1>João Pedro Nogueira</h1>
-          <ExternalLink text='GitHub' href='#' />
+          <h1>{name}</h1>
+          <ExternalLink text='GitHub' href={htmlUrl} />
         </header>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet nisi quaerat sapiente natus recusandae quae? Facere pariatur consequuntur, tempore nostrum consequatur optio quam hic. Cumque id amet quod et fuga!</p>
+        <p>{bio}</p>
         <ul>
           <li>
             <FontAwesomeIcon icon={faGithub}/>
-            Joao-Pedro-Nogueira
+            {login}
           </li>
           <li>
             <FontAwesomeIcon icon={faBuilding}/>
-            Universidade Católica Dom Bosco
+            {company}
           </li>
           <li>
             <FontAwesomeIcon icon={faUserGroup}/>
-            1 seguidor
+            {followers < 2 ?? {`${followers} seguidor`} : {`${followers} seguidores`}}
           </li>
         </ul>
       </ProfileDetails>
