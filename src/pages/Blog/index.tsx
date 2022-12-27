@@ -1,9 +1,13 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { Spinner } from "../../components/Spinner";
+import { api } from "../../lib/axios";
 import { Post } from "./components/Post";
 import { Profile } from "./components/Profile";
 import { SearchInput } from "./components/SearchInput";
 import { PostListContainer } from "./styles";
 
+const username = import.meta.env.VITE_GITHUB_USERNAME
+const repoName = import.meta.env.VITE_GITHUB_REPONAME
 interface ReposType {
   id: string;
   name: string;
@@ -22,31 +26,53 @@ interface ProfileType {
   bio: string;
 }
 
+export interface IPost {
+  title: string,
+  body: string,
+  created_at: string,
+  number: number,
+  html_url: string,
+  comments: number,
+  user: {
+    login: string
+  }
+}
+
 export function Blog() {
-  const [repos, setRepos] = useState<ReposType[]>([]) // Cria o estado que armazena os repositórios
-  const [profData, setProfData] = useState<ProfileType>()
+  const [posts, setPosts] = useState<IPost[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  const getPosts = useCallback(async (query: string = "") => {
+    try {
+      setIsLoading(true)
+
+      const response = await api.get(
+        `/search/issues?q=${query}%20repo:${username}/${repoName}`
+      )
+
+      setPosts(response.data.items)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [posts])
 
   useEffect(() => {
-    fetch('https://api.github.com/users/Joao-Pedro-Nogueira/repos')
-    .then(response => response.json())
-    .then(data => setRepos(data))
-  }, [])
-
-  useEffect(() => {
-    fetch('https://api.github.com/users/Joao-Pedro-Nogueira')
-    .then(response => response.json())
-    .then(profData => setProfData(profData))
+    getPosts()
   }, [])
 
   return (
     <>
-      <Profile name={profData.name} avatarUrl={profData.avatar_url} htmlUrl={profData.html_url} login={profData.login} company={profData.company} followers={profData.followers} bio={profData.bio} />
-      <SearchInput />
-      <PostListContainer>
-        {repos.map((repo) => {
-          return <Post key={repo.id} name={repo.name} description={repo.description} updatedAt={repo.updated_at} />
-        })}
-      </PostListContainer>
+      <Profile />
+      <SearchInput postsLength={posts.length} getPosts={getPosts} />
+      {isLoading ? (
+        <Spinner />
+      ):(
+        <PostListContainer>
+          {posts.map((post) => {
+            return <Post key={post.number} post={post} />
+          })}
+        </PostListContainer>
+      )}
     </>
   )
 }

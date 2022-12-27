@@ -1,19 +1,21 @@
+import { IPost } from "../..";
+import { relativeDateFormatter } from "../../../../utils/formatter";
 import { PostCard } from "./style";
 
 interface PostProps {
-  name: string;
-  description: string;
-  updatedAt: string;
+  post: IPost
 }
 
-export function Post({ name, description, updatedAt}: PostProps) {
+export function Post({ post }: PostProps) {
+  const formattedDate = relativeDateFormatter(post.created_at)
+
   return (
-    <PostCard to="/post/1">
+    <PostCard to={`/post/${post.number}`}>
       <header>
-        <h3>{name}</h3>
-        <span>{updatedAt}</span>
+        <h3>{post.title}</h3>
+        <span>{formattedDate}</span>
       </header>
-      <p>{description}</p>
+      <p>{post.body}</p>
     </PostCard>
   )
 }
